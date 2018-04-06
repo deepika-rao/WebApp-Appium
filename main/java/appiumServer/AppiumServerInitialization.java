@@ -1,23 +1,19 @@
-package appiumServer;
+package config;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
@@ -28,12 +24,12 @@ public abstract class AppiumServerInitialization {
 	 private AppiumDriverLocalService service;
 	 private DesiredCapabilities cap;
 	 private AppiumServiceBuilder builder;
-	 protected static AppiumDriver<MobileElement> driver;
+	 protected static AppiumDriver<AndroidElement> driver;
 	 static Properties properties;
-	 String node_js_Path="C:\\Program Files\\nodejs\\node.exe";
-	 String appium_js_path="C:\\Program Files\\Appium\\node_modules\\appium\\build\\lib\\main.js";
+	 String node_js_Path="C:\\Program Files\\nodejs\\node.exe"; // Replace the  path
+	 String appium_js_path="C:\\Program Files\\Appium\\node_modules\\appium\\build\\lib\\main.js"; // Replace the path
 
-@BeforeMethod
+@BeforeClass
 public void appiumInitialization() throws IOException
 {
 	
@@ -48,7 +44,7 @@ public void appiumInitialization() throws IOException
 	  builder = new AppiumServiceBuilder();
 	  builder.usingDriverExecutable(new File(node_js_Path));
 	  builder.withAppiumJS(new File(appium_js_path));
-	  builder.withIPAddress("0.0.0.0");
+	  builder.withIPAddress("127.0.0.1");
 	  builder.usingPort(4723);
 	  //builder.usingAnyFreePort();
 	  builder.withArgument(GeneralServerFlag.LOG_LEVEL, "info");
@@ -64,17 +60,23 @@ public void appiumInitialization() throws IOException
 		
 		cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "50");
 		
-		cap.setCapability("chromedriverExecutable", "C:\\Program Files\\ChromeDriver\\chromedriver.exe");
+		//cap.setCapability("chromedriverExecutable", "C:\\Program Files\\ChromeDriver\\chromedriver.exe"); // Use when Mobile chrome browser is less < 60.0 version
 		
 		cap.setCapability(MobileCapabilityType.BROWSER_NAME, "Chrome");
 		
 		//cap.setCapability(MobileCapabilityType.APP, properties.getProperty("APP"));
 		
-		cap.setCapability("appWaitPackage", "com.android.chrome");
+		//cap.setCapability("appWaitPackage", "com.android.chrome");
 		
-		cap.setCapability("appWaitActivity", "org.chromium.chrome.browser.ChromeTabbedActivity");
+		//cap.setCapability("appWaitActivity", "org.chromium.chrome.browser.ChromeTabbedActivity");
 		
-		driver = new AndroidDriver<MobileElement>(new URL("http://0.0.0.0:4723/wd/hub"), cap);
+		try {
+			
+		driver = new AndroidDriver<AndroidElement>(new URL("http://127.0.0.1:4723/wd/hub"), cap);
+		
+		}catch (MalformedURLException e){
+			e.printStackTrace();
+		}
 		
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		
@@ -84,20 +86,20 @@ public void appiumInitialization() throws IOException
 		
 		//driver.navigate().to("http://www.google.com");
 		
-		//driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		
-		
+		//driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);		
 		  
 }
 
-@AfterMethod
+@AfterMethod(enabled=false)
 public void stopAppiumService()
 {
-	driver.quit();
+	//driver.quit();
 	
-	System.out.println("Close the Browser");
+	//System.out.println("Close the Browser");
 	
 	service.stop();	
+	
+	System.out.println("Close the Browser");
 }
 
 /*@Test
@@ -106,20 +108,6 @@ public void startAppiumService()
 	//service.start();
 	System.out.println("Appium service is Started");	
 }*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
