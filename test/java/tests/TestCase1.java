@@ -1,10 +1,16 @@
 package tests;
 
 import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
-import appiumServer.AppiumServerInitialization;
-import appiumServer.CommonMethods;
+import config.AppiumServerInitialization;
+import config.CommonMethods;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
+import pages.Homepage;
 
 public class TestCase1 extends AppiumServerInitialization{
 	
@@ -12,7 +18,9 @@ public class TestCase1 extends AppiumServerInitialization{
 	
 	CommonMethods commonmethods;
 	
-	@Test
+	Homepage homepage;
+	
+	@Test(priority=1)
 	public void launchURL()
 	{
 		driver.navigate().to("http://www.naarsoft.com/");
@@ -24,10 +32,19 @@ public class TestCase1 extends AppiumServerInitialization{
 		commonmethods.log("Launch URL");		 
 	}
 	
-	@Test
-	public void NavigateToAboutPage()
+	@Test(priority=2)
+	public void NavigateToMenuPage() throws InterruptedException 
 	{
+		commonmethods = new CommonMethods(driver);
 		
+		homepage = new Homepage(driver);
+		
+		//driver.findElementByXPath("//*[contains(@class, 'icon-menu-fine')]").click();
+		
+		commonmethods.log("Click on Menu");	
+		
+		Thread.sleep(2000);
+			
 		
 	}
 }
