@@ -1,4 +1,4 @@
-package config;
+package appiumServer;
 
 import java.io.File;
 import java.io.FileReader;
@@ -60,7 +60,7 @@ public void appiumInitialization() throws IOException
 		
 		cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "50");
 		
-		//cap.setCapability("chromedriverExecutable", "C:\\Program Files\\ChromeDriver\\chromedriver.exe"); // Use when Mobile chrome browser is less < 60.0 version
+		cap.setCapability("chromedriverExecutable", "C:\\Program Files\\ChromeDriver\\chromedriver.exe"); // Use when Mobile chrome browser is less < 60.0 version
 		
 		cap.setCapability(MobileCapabilityType.BROWSER_NAME, "Chrome");
 		
@@ -90,24 +90,18 @@ public void appiumInitialization() throws IOException
 		  
 }
 
-@AfterMethod(enabled=false)
+@AfterMethod(enabled=true)
 public void stopAppiumService()
 {
 	//driver.quit();
 	
 	//System.out.println("Close the Browser");
 	
+	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	
 	service.stop();	
 	
 	System.out.println("Close the Browser");
 }
-
-/*@Test
-public void startAppiumService()
-{
-	//service.start();
-	System.out.println("Appium service is Started");	
-}*/
-
 
 }
