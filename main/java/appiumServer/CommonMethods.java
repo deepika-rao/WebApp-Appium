@@ -1,4 +1,4 @@
-package config;
+package appiumServer;
 
 import static org.testng.Assert.assertNotNull;
 import java.util.Set;
@@ -13,22 +13,16 @@ import org.testng.Assert;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 
 public class CommonMethods extends AppiumServerInitialization{
 	
-	//protected static AppiumDriver<MobileElement> driver;
-	
-	 //static AndroidDriver driver;
-	
 	public CommonMethods(AppiumDriver<AndroidElement> driver)
 	{
 	PageFactory.initElements(new AppiumFieldDecorator(driver), this);
 	}
-	
-	//protected static AppiumDriver<MobileElement> driver;
 	
 	public void waitcommand() throws InterruptedException
 	{
@@ -72,25 +66,24 @@ public class CommonMethods extends AppiumServerInitialization{
         listGroup.click();
     }
 	
-	public void getWebViewText()
+	// use this method when elements are in WebView
+	public void getWebViewText(String classname, String xpath)
 	{
 		System.out.println("First Current Context : "+driver.getContext());
-		driver.findElementByClassName("icon-menu-fine").click();
-		//driver.findElementByAccessibilityId("Views").click();
+		driver.findElementByClassName(classname).click();
 		for(int i=0;i<=20;i++)
 		{
 			try {
 				driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-				driver.findElementById("menu").click();
-				//driver.findElementByAccessibilityId("WebView").click();
+				driver.findElementByXPath(xpath).click();
 				break;
 			} catch (Exception e) {
 				//verticalSwipe();
 			}
 		}
-		// Using this method we switch to web view
+		// Using this method we switch to web view/native_app
 		switchContext("WEBVIEW");
-		String webViewText = driver.findElementByXPath("//*[contains(@class, 'icon-menu-fine')]").getText();
+		String webViewText = driver.findElementByXPath(xpath).getText();
 		System.out.println(webViewText);
 		
 	}
@@ -111,22 +104,20 @@ public class CommonMethods extends AppiumServerInitialization{
 		System.out.println("After Switching : "+driver.getContext());
 	}
 	
+	private void verticalScroll() {
+        TouchAction action = new TouchAction(driver);
+        action.press(535, 1486).waitAction().moveTo(250,200).release().perform();
+    }
 	
-	/*public void verticalSwipe(MobileElement startElement, MobileElement endElement)
-	{
-		/*Dimension dim = driver.manage().window().getSize();
-		int height = dim.getHeight();
-		int width = dim.getWidth();
-		int x = width/2;
-		int starty = (int)(height*0.80);
-		int endy = (int)(height*0.20);
-		driver.swipe(x, starty, x, endy, 500);
-		//driver.swipe(x, starty, x, endy, 500);	
-		
-			TouchAction actions = new TouchAction(driver);
-			actions.press(startElement).waitAction(Duration.ofSeconds(2)).moveTo(endElement).release().perform();*/
-				
-	}
+	private WebElement scrollViewArea() {
+        return driver.findElementByAccessibilityId("listview");
+    }
 	
+	public void swipeScrollView() {
+        Dimension size = scrollViewArea().getSize();
+        new TouchAction(driver).press(scrollViewArea(), size.width / 2, (size.height * 3) / 4).waitAction().moveTo(size.width / 2, size.height / 4).release().perform();
+    }
+	
+}
 	
 
