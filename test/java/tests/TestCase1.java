@@ -1,16 +1,11 @@
 package tests;
 
 import java.util.concurrent.TimeUnit;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
-import config.AppiumServerInitialization;
-import config.CommonMethods;
+import appiumServer.AppiumServerInitialization;
+import appiumServer.CommonMethods;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import pages.Homepage;
+import pages.MenuList;
 
 public class TestCase1 extends AppiumServerInitialization{
 	
@@ -18,7 +13,7 @@ public class TestCase1 extends AppiumServerInitialization{
 	
 	CommonMethods commonmethods;
 	
-	Homepage homepage;
+	MenuList homepage;
 	
 	@Test(priority=1)
 	public void launchURL()
@@ -33,18 +28,30 @@ public class TestCase1 extends AppiumServerInitialization{
 	}
 	
 	@Test(priority=2)
-	public void NavigateToMenuPage() throws InterruptedException 
+	public void NavigateToAboutUSPage() throws InterruptedException 
 	{
 		commonmethods = new CommonMethods(driver);
 		
-		homepage = new Homepage(driver);
+		homepage = new MenuList(driver);
 		
-		//driver.findElementByXPath("//*[contains(@class, 'icon-menu-fine')]").click();
-		
-		commonmethods.log("Click on Menu");	
+		homepage.ClickAboutUs();
 		
 		Thread.sleep(2000);
-			
 		
+		commonmethods.log("Click on AboutUS");	
+	}
+	
+	@Test(priority=3)
+	public void NavigateToHome() throws InterruptedException
+	{
+		commonmethods = new CommonMethods(driver);
+		
+		homepage = new MenuList(driver);
+		
+		homepage.ClickHome();
+		
+		Thread.sleep(2000);
+		
+		commonmethods.log("Click on Home");
 	}
 }
