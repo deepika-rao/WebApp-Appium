@@ -1,37 +1,63 @@
 package pages;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
-import config.AppiumServerInitialization;
+import appiumServer.AppiumServerInitialization;
+import appiumServer.CommonMethods;
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.android.AndroidElement;
-import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 
-public class Homepage extends AppiumServerInitialization{
+public class MenuList extends AppiumServerInitialization{
 	
-	public Homepage(AppiumDriver<AndroidElement> driver)
+	private AppiumDriver appiumDriver;
+	
+	CommonMethods commonmethods;
+	
+	public MenuList(AppiumDriver appiumDriver)
 	{
-	PageFactory.initElements(new AppiumFieldDecorator(driver), this);
-	}
-	
-	//@AndroidFindBy(xpath="//android.view.View[@index='1']")
-	@AndroidFindBy(xpath="//*[contains(@class, 'icon-menu-fine')]")
-	public WebElement Menu;
-	
-	@AndroidFindBy(xpath="//android.view.View[@accessibilityid='ABOUT US']")
-	public WebElement AboutUs;	
-	
-	public void ClickMenu()
-	{
-		Menu.click();
-	}
+	//PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+		this.appiumDriver=appiumDriver;
+	}	
 	
 	public void ClickAboutUs()
 	{
-		AboutUs.click();
+		commonmethods = new CommonMethods(driver);
+		
+		commonmethods.getWebViewText("icon-menu-fine", "//a[contains(@href,'http://naarsoft.com/about-us/')]");
+		
 	}
 	
+	public void ClickHome()
+	{
+		commonmethods = new CommonMethods(driver);
+		
+		commonmethods.getWebViewText("icon-menu-fine", "//span[text()='Home']");
+	}
+	
+	public void ClickCaseStudies()
+	{
+		commonmethods = new CommonMethods(driver);
+		
+		commonmethods.getWebViewText("icon-menu-fine", "//*[@id='menu-item-773']");
+	}
+	
+	public void ClickPortfolio()
+	{
+		commonmethods = new CommonMethods(driver);
+		
+		commonmethods.getWebViewText("icon-menu-fine", "//*[@id='menu-item-241']");
+	}
+	
+	public void ClickBlog()
+	{
+		commonmethods = new CommonMethods(driver);
+		
+		commonmethods.getWebViewText("icon-menu-fine", "//*[@id='menu-item-196']");
+	}
+	
+	public void ClickContactUs()
+	{
+		commonmethods = new CommonMethods(driver);
+		
+		commonmethods.getWebViewText("icon-menu-fine", "//*[@id='menu-item-199']");
+	}
 	
 
 }
