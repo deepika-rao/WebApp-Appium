@@ -90,7 +90,7 @@ public void appiumInitialization() throws IOException
 		  
 }
 
-@AfterMethod(enabled=true)
+@AfterClass(enabled=true)
 public void stopAppiumService()
 {
 	//driver.quit();
@@ -99,9 +99,12 @@ public void stopAppiumService()
 	
 	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	
-	service.stop();	
+	driver.quit();
+	
+	service.stop();
 	
 	System.out.println("Close the Browser");
 }
+
 
 }
