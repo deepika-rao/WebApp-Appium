@@ -113,10 +113,15 @@ public class CommonMethods extends AppiumServerInitialization{
         return driver.findElementByAccessibilityId("listview");
     }
 	
-	public void swipeScrollView() {
-        Dimension size = scrollViewArea().getSize();
-        new TouchAction(driver).press(scrollViewArea(), size.width / 2, (size.height * 3) / 4).waitAction().moveTo(size.width / 2, size.height / 4).release().perform();
-    }
+	public void ScrollPage() {
+        // --- Method 1 to scroll vertical
+		/*Dimension size = scrollViewArea().getSize();
+        new TouchAction(driver).press(scrollViewArea(), size.width / 2, (size.height * 3) / 4).waitAction().moveTo(size.width / 2, size.height / 4).release().perform();*/
+    
+		// ---- Method 2 using javascript
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("scroll(0,3000)");
+	}
 	
 }
 	
