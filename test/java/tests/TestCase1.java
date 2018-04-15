@@ -92,4 +92,29 @@ public class TestCase1 extends AppiumServerInitialization{
 		commonmethods.log("Click on Microsoft .Net");
 	}
 	
+	@Test(priority=6)
+	public void NavigateToPHP_Development() throws Exception
+	{
+		commonmethods = new CommonMethods(driver);
+		
+		servicespage = new ServicesPage(driver);
+		
+		servicespage.ClickOpenSource_PHPDevelopment();
+		
+		Thread.sleep(2000);
+		
+		commonmethods.log("Click on PHP Development");
+	}
+	
+	@Test(priority=7)
+	public void Scroll_Down() throws InterruptedException
+	{
+		commonmethods = new CommonMethods(driver);
+		
+		commonmethods.ScrollPage();
+		
+		Thread.sleep(2000);
+		
+		commonmethods.log("Scroll down");
+	}
 }
