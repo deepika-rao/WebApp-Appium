@@ -123,6 +123,20 @@ public class CommonMethods extends AppiumServerInitialization{
 		js.executeScript("scroll(0,3000)");
 	}
 	
+	public void captureScreenShots() throws IOException{	
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
+		
+		Date date = new Date();
+		
+		String fileName = sdf.format(date);
+              
+        File srcFile=driver.getScreenshotAs(OutputType.FILE);        
+       
+        FileUtils.copyFile(srcFile, new File(System.getProperty("user.dir")+"//Screenshots//" + fileName + ".jpg"));        
+        
+	}
+	
 }
 	
 
