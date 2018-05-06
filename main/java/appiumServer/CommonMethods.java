@@ -1,12 +1,20 @@
 package appiumServer;
 
 import static org.testng.Assert.assertNotNull;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
@@ -120,23 +128,27 @@ public class CommonMethods extends AppiumServerInitialization{
     
 		// ---- Method 2 using javascript
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript("scroll(0,3000)");
+		js.executeScript("scroll(0,2000)");
 	}
 	
-	public void captureScreenShots() throws IOException{	
+	public static void captureScreenShot(String screenshotName){
+		try {  
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
+		 File src=((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);           
 		
-		Date date = new Date();
+		// now copy the  screenshot to desired location using copyFile method
+		 
+		FileUtils.copyFile(src, new File("./Screenshots/"+screenshotName+".png")); 
 		
-		String fileName = sdf.format(date);
-              
-        File srcFile=driver.getScreenshotAs(OutputType.FILE);        
-       
-        FileUtils.copyFile(srcFile, new File(System.getProperty("user.dir")+"//Screenshots//" + fileName + ".jpg"));        
-        
+		System.out.println("Screenshot captured");
+		} 
+		catch (Exception e)
+		{
+		  System.out.println("Exception while taking screenshot"+e.getMessage());
+		 }
+		
 	}
+	
 	
 }
 	
-
