@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import appiumServer.AppiumServerInitialization;
 import appiumServer.CommonMethods;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
+import pages.ContactUsPage;
 import pages.MenuList;
 import pages.ServicesPage;
 
@@ -19,6 +20,8 @@ public class TestCase1 extends AppiumServerInitialization{
 	
 	ServicesPage servicespage;
 	
+	ContactUsPage contactuspage;
+	
 	@Test(priority=1)
 	public void launchURL() throws IOException
 	{
@@ -30,7 +33,7 @@ public class TestCase1 extends AppiumServerInitialization{
 		
 		commonmethods.log("Launch URL");
 		
-		commonmethods.captureScreenShots();
+		commonmethods.captureScreenShot("LaunchURL");
 	}
 	
 	@Test(priority=2)
@@ -46,7 +49,7 @@ public class TestCase1 extends AppiumServerInitialization{
 		
 		commonmethods.log("Click on AboutUS");	
 		
-		commonmethods.captureScreenShots();
+		commonmethods.captureScreenShot("AboutUSpage");
 	}
 	
 	@Test(priority=4)
@@ -61,9 +64,11 @@ public class TestCase1 extends AppiumServerInitialization{
 		Thread.sleep(2000);
 		
 		commonmethods.log("Click on Home");
+		
+		commonmethods.captureScreenShot("HomePage");
 	}
 	
-	@Test(priority=3)
+	@Test(enabled=false)
 	public void NavigateToContactUS() throws InterruptedException
 	{
 		commonmethods = new CommonMethods(driver);
@@ -90,6 +95,8 @@ public class TestCase1 extends AppiumServerInitialization{
 		Thread.sleep(2000);
 		
 		commonmethods.log("Click on Microsoft .Net");
+		
+		commonmethods.captureScreenShot("Microsoft_NetPage");
 	}
 	
 	@Test(priority=6)
@@ -104,6 +111,8 @@ public class TestCase1 extends AppiumServerInitialization{
 		Thread.sleep(2000);
 		
 		commonmethods.log("Click on PHP Development");
+		
+		commonmethods.captureScreenShot("PHP_DevelopPage");
 	}
 	
 	@Test(priority=7)
@@ -117,4 +126,30 @@ public class TestCase1 extends AppiumServerInitialization{
 		
 		commonmethods.log("Scroll down");
 	}
+	
+	@Test(priority=8)
+	public void NavigateToContactUs() throws InterruptedException
+	{
+		commonmethods = new CommonMethods(driver);
+		
+		contactuspage = new ContactUsPage(driver);
+		
+		contactuspage.ClickContactUs();
+		
+		Thread.sleep(2000);
+		
+		contactuspage.YourName();
+		
+		Thread.sleep(2000);
+		
+		commonmethods.log("Enter Your Name");
+		
+		Thread.sleep(2000);
+		
+		commonmethods.captureScreenShot("Name_field");
+		
+	}
+	
+	
+	
 }
